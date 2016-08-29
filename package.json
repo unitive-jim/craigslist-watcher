@@ -16,18 +16,15 @@
     "url": "git+https://github.com/thehodapp/craigslist-watcher.git"
   },
   "dependencies": {
-    "async": ">= 0.2.5",
-    "bluebird": "^3.4.3",
-    "cheerio": ">= 0.12.2",
-    "commander": "^2.9.0",
-    "debug": "^2.2.0",
-    "lodash": "^4.15.0",
-    "nedb": "^1.8.0",
-    "node-fs": ">= 0.1.7",
-    "nodemailer": ">= 0.5.2",
-    "request": ">= 2.27.0",
-    "request-promise": "^4.1.1",
-    "slackbots": "^0.5.2"
+    "bluebird": "3.4.3",
+    "cheerio": "0.22.0",
+    "commander": "2.9.0",
+    "debug": "2.2.0",
+    "lodash": "4.15.0",
+    "nedb": "1.8.0",
+    "request": "2.74.0",
+    "request-promise": "4.1.1",
+    "slack-webhook": "1.0.0"
   },
   "bugs": {
     "url": "https://github.com/thehodapp/craigslist-watcher/issues"
