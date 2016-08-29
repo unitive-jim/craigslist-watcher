@@ -5,9 +5,13 @@ const debug = require('debug');
 const fs = require('fs');
 const P = require('bluebird');
 const program = require('commander');
-const slackbots = require('slackbots');
+const SlackWebhook = require('slack-webhook');
 
 const dlog = debug('craigslist');
+
+const SLACK = 'https://hooks.slack.com/services/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'   // craigs-test
+
+const slack = new SlackWebhook(SLACK, { Promise: P });
 
 const defaults = {
   city: 'sfbay',
@@ -24,19 +28,26 @@ if (program.fresh) {
   fs.unlinkSync(dbFileName);
 }
 
-const db = new Datastore({ filename: dbFileName, autoload: true });
-const options = { context: db };
+let findOne = null;
+let insert = null;
 
-const ensureIndex = P.promisify(db.ensureIndex, options);
-const findOne = P.promisify(db.findOne, options);
-const insert =  P.promisify(db.insert,  options);
+function initDb() {
+  const db = new Datastore({ filename: dbFileName });
+  const options = { context: db };
+  const methods = _.map(['loadDatabase', 'ensureIndex', 'findOne', 'insert'], (m) => P.promisify(db[m], options));
+  let loadDatabase = null;
+  let ensureIndex = null;
+  [loadDatabase, ensureIndex, findOne, insert] = methods;
+  return ensureIndex({ fieldName: 'href', unique: true })
+    .then(() => loadDatabase());
+}
 
 const baseUrl = 'http://' + program.city + '.craigslist.org';
 
 function notify(doc) {
-  // TODO: notify via slackbots
-  dlog(`New listing: ${doc.href}`);
-  return P.resolve();
+  const message = `${doc.housing} ${doc.price} ${doc.loc} ${doc.href}`;
+  dlog(message);
+  return slack.send(message);
 }
 
 function processDoc(doc) {
@@ -55,7 +66,11 @@ function processDoc(doc) {
   })
 }
 
-ensureIndex({ fieldName: 'href', unique: true })
+initDb()
 .then(() => craigslistscraper.query(baseUrl))
-.then((results) => _.each(results, (doc) => processDoc(doc)));
+.then((results) => _.each(results, (doc) => processDoc(doc)))
+.catch((err) => {
+  console.error('Error:', err);
+});
+
 
