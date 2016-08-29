@@ -3,19 +3,40 @@
   "version": "0.2.2",
   "author": "Dennis Hodapp <thehodapp@gmail.com>",
   "description": "A way to keep track of new Craigslist postings without ever having to check Craigslist manually",
-  "keywords": ["craigslist", "email", "notification"],
+  "keywords": [
+    "craigslist",
+    "email",
+    "notification"
+  ],
   "bin": {
     "craigslist-watcher": "./craigslist-watcher.sh"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thehodapp/craigslist-watcher.git"
+    "url": "git+https://github.com/thehodapp/craigslist-watcher.git"
   },
   "dependencies": {
     "async": ">= 0.2.5",
+    "bluebird": "^3.4.3",
     "cheerio": ">= 0.12.2",
-    "node-fs":   ">= 0.1.7",
-    "nodemailer":   ">= 0.5.2",
-    "request":   ">= 2.27.0"
-  }
+    "commander": "^2.9.0",
+    "debug": "^2.2.0",
+    "lodash": "^4.15.0",
+    "nedb": "^1.8.0",
+    "node-fs": ">= 0.1.7",
+    "nodemailer": ">= 0.5.2",
+    "request": ">= 2.27.0",
+    "request-promise": "^4.1.1",
+    "slackbots": "^0.5.2"
+  },
+  "bugs": {
+    "url": "https://github.com/thehodapp/craigslist-watcher/issues"
+  },
+  "homepage": "https://github.com/thehodapp/craigslist-watcher#readme",
+  "main": "craigslist-watcher.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT"
 }
